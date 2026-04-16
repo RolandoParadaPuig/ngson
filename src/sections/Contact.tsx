@@ -24,6 +24,10 @@ function isValidEmail(email: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
+function isValidPhone(phone: string) {
+  return /^\+?[\d\s\-(). ]{7,}$/.test(phone.trim());
+}
+
 export default function Contact() {
   const [form, setForm] = useState<FormData>(EMPTY);
   const [errors, setErrors] = useState<Partial<FormData>>({});
@@ -34,6 +38,7 @@ export default function Contact() {
     if (!form.name.trim()) errs.name = 'Full name is required.';
     if (!form.email.trim()) errs.email = 'Email address is required.';
     else if (!isValidEmail(form.email)) errs.email = 'Please enter a valid email.';
+    if (form.phone.trim() && !isValidPhone(form.phone)) errs.phone = 'Please enter a valid phone number.';
     if (!form.service) errs.service = 'Please select a service.';
     if (!form.message.trim()) errs.message = 'Message is required.';
     setErrors(errs);
@@ -135,7 +140,7 @@ export default function Contact() {
                           className={errors.name ? inputError : inputNormal}
                         />
                         {errors.name && (
-                          <p className="mt-1 text-xs text-red-500">{errors.name}</p>
+                          <p role="alert" className="mt-1 text-xs text-red-500">{errors.name}</p>
                         )}
                       </div>
                       <div>
@@ -151,7 +156,7 @@ export default function Contact() {
                           className={errors.email ? inputError : inputNormal}
                         />
                         {errors.email && (
-                          <p className="mt-1 text-xs text-red-500">{errors.email}</p>
+                          <p role="alert" className="mt-1 text-xs text-red-500">{errors.email}</p>
                         )}
                       </div>
                     </div>
@@ -169,8 +174,11 @@ export default function Contact() {
                           value={form.phone}
                           onChange={handleChange}
                           placeholder="+1 (305) 000-0000"
-                          className={inputNormal}
+                          className={errors.phone ? inputError : inputNormal}
                         />
+                        {errors.phone && (
+                          <p role="alert" className="mt-1 text-xs text-red-500">{errors.phone}</p>
+                        )}
                       </div>
                       <div>
                         <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
@@ -188,7 +196,7 @@ export default function Contact() {
                           <option value="general">General Inquiry</option>
                         </select>
                         {errors.service && (
-                          <p className="mt-1 text-xs text-red-500">{errors.service}</p>
+                          <p role="alert" className="mt-1 text-xs text-red-500">{errors.service}</p>
                         )}
                       </div>
                     </div>
@@ -207,7 +215,7 @@ export default function Contact() {
                         className={`resize-none ${errors.message ? inputError : inputNormal}`}
                       />
                       {errors.message && (
-                        <p className="mt-1 text-xs text-red-500">{errors.message}</p>
+                        <p role="alert" className="mt-1 text-xs text-red-500">{errors.message}</p>
                       )}
                     </div>
 

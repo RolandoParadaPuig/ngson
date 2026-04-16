@@ -1,6 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
-import { X } from 'lucide-react';
 
 const PHONE = '13050000000';
 const MESSAGE = encodeURIComponent(
@@ -46,6 +45,8 @@ export default function FloatingWhatsApp() {
           whileTap={{ scale: 0.95 }}
           onHoverStart={() => setTooltipVisible(true)}
           onHoverEnd={() => setTooltipVisible(false)}
+          onFocus={() => setTooltipVisible(true)}
+          onBlur={() => setTooltipVisible(false)}
           className="relative flex items-center justify-center w-14 h-14 rounded-full bg-green-500 text-white shadow-xl hover:bg-green-600 transition-colors"
         >
           <WhatsAppIcon />

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import AnimatedSection from '../components/AnimatedSection';
 import ListingCard from '../components/ListingCard';
@@ -15,7 +15,10 @@ const filters: { label: string; value: Filter }[] = [
 export default function Gallery() {
   const [active, setActive] = useState<Filter>('all');
 
-  const filtered = active === 'all' ? listings : listings.filter((l) => l.category === active);
+  const filtered = useMemo(
+    () => (active === 'all' ? listings : listings.filter((l) => l.category === active)),
+    [active]
+  );
 
   return (
     <section id="gallery" className="py-24 bg-white dark:bg-slate-950">

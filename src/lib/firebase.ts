@@ -15,8 +15,8 @@ const firebaseConfig = {
 const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
 
 // Analytics is only available in browser environments (not SSR/Node)
-const analyticsPromise = isSupported().then((supported) =>
-  supported ? getAnalytics(app) : null
-);
+isSupported().then((supported) => {
+  if (supported) getAnalytics(app);
+});
 
-export { app, analyticsPromise };
+export { app };
